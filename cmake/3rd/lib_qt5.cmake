@@ -18,14 +18,14 @@ function(deploy_qt5 target)
             get_filename_component(name \"\${dep}\" NAME)
             if(name MATCHES \"^libQt5\")
                 execute_process(COMMAND \"\${CMAKE_COMMAND}\" -E copy_if_different
-                    \"\${dep}\" \"${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/\${name}\")
+                    \"\${dep}\" \"${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/\${name}\")
             endif()
         endforeach()
         execute_process(COMMAND \"\${CMAKE_COMMAND}\" -E make_directory
-            \"${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/platforms\")
+            \"${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/platforms\")
         execute_process(COMMAND \"\${CMAKE_COMMAND}\" -E copy_if_different
             \"${QT5_PLATFORM_DIR}/lib/qt5/plugins/platforms/libqxcb.so\"
-            \"${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/platforms/\")"
+            \"${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/platforms/\")"
     )
 
     add_custom_command(TARGET ${target} POST_BUILD
