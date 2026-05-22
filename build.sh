@@ -19,8 +19,13 @@ main() {
             make -j$(nproc) || exit 1
             "$OUTPUT_DIR/mainboard"
             ;;
+        "clean_3rd")
+            find "$PROJECT_DIR/3rd" -mindepth 1 -maxdepth 1 \
+                ! -name 'setup.sh' ! -name 'source' \
+                -exec rm -rf {} +
+            ;;
         *)
-            echo "Usage: $0 {build|clean|build_and_run}"
+            echo "Usage: $0 {build|clean|build_and_run|clean_3rd}"
             exit 1
             ;;
     esac
