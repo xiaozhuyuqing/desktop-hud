@@ -3,3 +3,5 @@
 !/3rd/source/
 /output
 /build
+.vscode
+compile_commands.json

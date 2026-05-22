@@ -11,7 +11,6 @@ set(CMAKE_INSTALL_RPATH "$ORIGIN/lib")
 
 find_3rd_package(qt5)
 find_package(Qt5 COMPONENTS Widgets REQUIRED)
-
 list(APPEND CMAKE_AUTOUIC_SEARCH_PATHS ${PROJECT_SOURCE_DIR}/ui)
 
 file(GLOB SOURCE_FILE
@@ -23,12 +22,21 @@ file(GLOB RESOURCE_FILE ${PROJECT_SOURCE_DIR}/*.qrc)
 
 add_executable(mainboard ${SOURCE_FILE} ${RESOURCE_FILE})
 
-target_link_libraries(mainboard Qt5::Widgets)
+target_link_libraries(mainboard
+    Qt5::Widgets
+    yaml-cpp
+    desktop_hud_core
+)
+
 target_include_directories(mainboard PRIVATE ${PROJECT_SOURCE_DIR}/include)
+
 # 使用 RPATH 替代 RUNPATH，使 $ORIGIN 搜索对依赖库也生效
 target_link_options(mainboard PRIVATE "LINKER:--disable-new-dtags")
 
 add_custom_command(TARGET mainboard POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_directory
     ${PROJECT_SOURCE_DIR}/resources $<TARGET_FILE_DIR:mainboard>/resources)
-deploy_qt5(mainboard)
+    
+include("${CMAKE_SOURCE_DIR}/cmake/build_setup.cmake")
+
+deploy_runtime(mainboard)

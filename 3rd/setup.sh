@@ -38,7 +38,7 @@ _list() {
 # 安装单个库
 _install_one() {
     local name="$1"
-    local func="setup_$name"
+    local func="setup_${name//-/_}"
     local script="$SOURCE_DIR/$name.sh"
 
     if [ ! -f "$script" ]; then
