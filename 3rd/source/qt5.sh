@@ -1,11 +1,11 @@
 #!/bin/bash
 # Qt5 第三方库安装
-# 从 Ubuntu 仓库下载 deb 包，提取到 3rd/qt5/<arch>/
+# 从 Ubuntu 仓库下载 deb 包，提取到 3rd/<arch>/qt5/
 
 setup_qt5() {
     local arch
     arch=$(get_arch)
-    local platform_dir="$THIRD_DIR/qt5/$arch"
+    local platform_dir="$THIRD_DIR/$arch/qt5"
 
     if [ -d "$platform_dir/cmake/Qt5" ]; then
         echo "  -> already installed"

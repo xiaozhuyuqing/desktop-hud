@@ -1,5 +1,8 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+
+#include <desktop_hud_core>
+
 namespace yuqing::mainboard{
 
 

@@ -1,0 +1,5 @@
+#pragma once
+
+#include "component.h"
+#include "component_factory.h"
+#include "base.h"
