@@ -9,7 +9,7 @@ void ComponentBase::init(const std::filesystem::path &config_path)
 {
     config_path_ = config_path;
     try {
-        config_node_ = YAML::LoadFile(config_path_);
+        config_node_ = YAML::LoadFile(config_path_.string());
     } catch (const YAML::Exception& e) {
         // TO DO 输出日志和异常，等待外界捕获
     }

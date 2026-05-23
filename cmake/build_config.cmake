@@ -1,6 +1,22 @@
 include(GNUInstallDirs)
 set(THIRD_PARTY_DIR "${CMAKE_SOURCE_DIR}/3rd")
 
+# --- Platform abstraction ---
+if(CMAKE_SYSTEM_NAME MATCHES "Linux")
+    set(HUD_ARCH_DIR "${CMAKE_LIBRARY_ARCHITECTURE}")
+    set(HUD_DEPLOY_LIB_DIR "${CMAKE_SOURCE_DIR}/output/lib")
+elseif(WIN32)
+    if(CMAKE_SIZEOF_VOID_P EQUAL 8)
+        set(HUD_ARCH_DIR "win64")
+    else()
+        set(HUD_ARCH_DIR "win32")
+    endif()
+    set(HUD_DEPLOY_LIB_DIR "${CMAKE_SOURCE_DIR}/output")
+else()
+    set(HUD_ARCH_DIR "${CMAKE_SYSTEM_PROCESSOR}")
+    set(HUD_DEPLOY_LIB_DIR "${CMAKE_SOURCE_DIR}/output/lib")
+endif()
+
 macro(find_3rd_package name)
     include(${CMAKE_SOURCE_DIR}/cmake/3rd/lib_${name}.cmake)
 endmacro()

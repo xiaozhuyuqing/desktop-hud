@@ -1,7 +1,14 @@
 /3rd/*
 !/3rd/setup.sh
+!/3rd/setup.bat
 !/3rd/source/
+/3rd/win64/
+/3rd/win32/
 /output
 /build
 .vscode
+*.user
+*.suo
+*.vcxproj*
+CMakeSettings.json
 compile_commands.json

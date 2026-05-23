@@ -36,8 +36,8 @@ void yuqing::mainboard::SystemTrayIcon::closeEvent(QCloseEvent *event)
 
 void yuqing::mainboard::SystemTrayIcon::SetupTrayActions()
 {
-    wakeUpAction = new QAction("打开主界面", menu);
-    closeDownAction = new QAction("退出", menu);
+    wakeUpAction = new QAction("Show", menu);
+    closeDownAction = new QAction("Exit", menu);
     menu->addAction(wakeUpAction);
     menu->addAction(closeDownAction);
 }
