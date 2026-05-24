@@ -7,6 +7,7 @@ endif()
 add_library(desktop_hud_core SHARED
     component.cpp
     component_factory.cpp
+    core_exception.cpp
 )
 
 target_include_directories(desktop_hud_core PUBLIC
