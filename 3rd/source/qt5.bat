@@ -12,14 +12,35 @@ if "%QT5_VERSION%"=="" set "QT5_VERSION=5.15.2"
 
 echo   [qt5] installing Qt %QT5_VERSION% for %QT5_ARCH%...
 
-where python >nul 2>&1
-if %ERRORLEVEL% neq 0 (
-    echo   [qt5] ERROR: python not found
-    exit /b 1
+rem Find a working Python (skip Windows App Exec Alias stub)
+set "PYTHON_EXE="
+for %%d in (
+    "%LOCALAPPDATA%\Programs\Python\Python312\python.exe"
+    "%LOCALAPPDATA%\Programs\Python\Python311\python.exe"
+    "%LOCALAPPDATA%\Programs\Python\Python313\python.exe"
+    "C:\Python312\python.exe"
+    "C:\Python311\python.exe"
+) do (
+    if exist "%%~d" (
+        set "PYTHON_EXE=%%~d"
+        goto :python_found
+    )
 )
+where python >nul 2>&1
+if %ERRORLEVEL% equ 0 (
+    rem App Exec Alias stub? verify it actually works
+    python -c "exit(0)" >nul 2>&1
+    if !ERRORLEVEL! equ 0 set "PYTHON_EXE=python"
+)
+if defined PYTHON_EXE goto :python_found
+echo   [qt5] ERROR: python not found (install from python.org or run: winget install Python.Python.3.12^)
+exit /b 1
+
+:python_found
+echo   [qt5] using Python: %PYTHON_EXE%
 
 echo   [qt5] installing aqtinstall...
-python -m pip install aqtinstall -q 2>&1
+%PYTHON_EXE% -m pip install aqtinstall -q 2>&1
 if %ERRORLEVEL% neq 0 (
     echo   [qt5] ERROR: pip install aqtinstall failed
     exit /b 1
@@ -29,7 +50,7 @@ set "AQT_TMP=%THIRD_DIR%.tmp_qt5"
 if exist "%AQT_TMP%" rmdir /s /q "%AQT_TMP%"
 
 echo   [qt5] downloading (this may take a while)...
-python -m aqt install-qt windows desktop %QT5_VERSION% %QT5_ARCH% --outputdir "%AQT_TMP%"
+%PYTHON_EXE% -m aqt install-qt windows desktop %QT5_VERSION% %QT5_ARCH% --outputdir "%AQT_TMP%"
 if %ERRORLEVEL% neq 0 (
     echo   [qt5] ERROR: download failed, try again or check network
     if exist "%AQT_TMP%" rmdir /s /q "%AQT_TMP%"
